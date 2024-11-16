@@ -1,7 +1,14 @@
 import json
+from entidadvineria import EntidadVineria
+from vinoteca import Vinoteca
 
+class Vino (EntidadVineria):
 
-class Vino:
+    def __init__(self, id: str, nombre: str, bodega: str, cepas: list, partidas: list):
+        super().__init__(id, nombre)
+        self.__bodega = bodega
+        self.__cepas = cepas
+        self.__partidas = partidas
 
     def __repr__(self):
         return json.dumps({"nombre": self.obtenerNombre()})
@@ -28,3 +35,16 @@ class Vino:
         cepas = self.obtenerCepas()
         cepasMapa = map(lambda a: a.obtenerNombre(), cepas)
         return list(cepasMapa)
+
+# Código agregado
+# La consulta obtenerBodega debe hacer uso del servicio buscarBodega de la clase Vinoteca para recuperar el objeto de tipo Bodega asociado al vino.
+    def obtenerBodega(self):
+        return Vinoteca.buscarBodega(self.__bodega)
+
+# La consulta obtenerCepas puede hacer uso de los servicios buscarCepa u obtenerCepas de la clase Vinoteca para recuperar los objetos de tipo Cepa para las cepas en las que se ofrece el vino en cuestión.
+    def obtenerCepas(self):
+        return [Vinoteca.buscarCepa(cepa_id) for cepa_id in self.__cepas]
+
+# Consulta obtenerPartidas    
+    def obtenerPartidas(self):
+        return self.__partidas
