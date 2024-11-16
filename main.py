@@ -2,13 +2,17 @@
 from flask import Flask
 from flask_restful import Api
 
-from vinoteca import Vinoteca
+import vinoteca
 
 # API
 from recursos import *
 
+# Configurar la app de Flask
+app = Flask(__name__)
+api = Api(app)
+
 if __name__ == "__main__":
-    Vinoteca.inicializar()
+    vinoteca.Vinoteca.inicializar()
 
     app = Flask(__name__)
 

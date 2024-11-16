@@ -1,6 +1,6 @@
 import json
 from entidadvineria import EntidadVineria
-from vinoteca import Vinoteca
+import vinoteca
 
 
 class Cepa (EntidadVineria):
@@ -38,10 +38,9 @@ class Cepa (EntidadVineria):
         )
         return list(vinosMapa)
 
-
 # Código Agregado
 # Consulta obtenerVinos
     def obtenerVinos(self):
         # La consulta obtenerVinos debe hacer uso del servicio obtenerVinos de la clase Vinoteca para recuperar todos los vinos contenidos en el archivo json. Sobre dicha lista se debe iterar hasta encontrar los vinos que se ofrecen en la cepa en cuestión.
-        todos_los_vinos = Vinoteca.obtenerVinos(None, None, None)
+        todos_los_vinos = vinoteca.Vinoteca.obtenerVinos(None, None, None)
         return [vino for vino in todos_los_vinos if self.obtenerId() in [cepa.obtenerId() for cepa in vino.obtenerCepas()]]
