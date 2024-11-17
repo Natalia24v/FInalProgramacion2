@@ -1,4 +1,3 @@
-# vinoteca.py
 import os
 import json
 
@@ -34,22 +33,32 @@ class Vinoteca:
     def obtenerVinos(cls, anio=None, orden=None, reverso=False):
         vinos_filtrados = cls.__vinos
         if anio:
-            vinos_filtrados = [vino for vino in cls.__vinos if anio in vino.partidas]
+            vinos_filtrados = [vino for vino in cls.__vinos if anio in vino.obtenerPartidas()]
         if orden:
-            return sorted(vinos_filtrados, key=lambda v: getattr(v, orden), reverse=reverso)
+            #diccionario para mapear los nombres de los atributos a los métodos correspondientes
+            orden_map = {
+                "id": "obtenerId",
+                "nombre": "obtenerNombre",
+                "bodega": "obtenerBodega",
+                "partidas": "obtenerPartidas"
+            }
+            # Obtener el método correspondiente del diccionario
+            metodo_orden = orden_map.get(orden)
+            if metodo_orden:
+                return sorted(vinos_filtrados, key=lambda v: getattr(v, metodo_orden)(), reverse=reverso)
         return vinos_filtrados
 
     @classmethod
     def buscarBodega(cls, id):
-        return next((bodega for bodega in cls.__bodegas if bodega.id == id), None)
+        return next((bodega for bodega in cls.__bodegas if bodega.obtenerId() == id), None)
 
     @classmethod
     def buscarCepa(cls, id):
-        return next((cepa for cepa in cls.__cepas if cepa.id == id), None)
+        return next((cepa for cepa in cls.__cepas if cepa.obtenerId() == id), None)
 
     @classmethod
     def buscarVino(cls, id):
-        return next((vino for vino in cls.__vinos if vino.id == id), None)
+        return next((vino for vino in cls.__vinos if vino.obtenerId() == id), None)
 
     @classmethod
     def __parsearArchivoDeDatos(cls):

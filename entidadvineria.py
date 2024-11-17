@@ -2,22 +2,22 @@ from abc import ABC, abstractmethod
 
 class EntidadVineria(ABC):
     def __init__(self, id, nombre):
-        self.id = id
-        self.nombre = nombre
+        self.__id = id
+        self.__nombre = nombre
 
     def establecerNombre(self, nombre):
-        self.nombre = nombre
+        self.__nombre = nombre
 
     def obtenerId(self):
-        return self.id
+        return self.__id
 
     def obtenerNombre(self):
-        return self.nombre
+        return self.__nombre
 
     # Sobrescribir Consulta __eq__ (compara por Id)
     def __eq__(self, otro_obj):
         if isinstance(otro_obj, EntidadVineria):
-            return self.id == otro_obj.id
+            return self.__id == otro_obj.__id
         return False
 
     # Convertir a JSON
