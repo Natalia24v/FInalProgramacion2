@@ -1,72 +1,48 @@
-import json
+from vinoteca import Vinoteca
 
-class Vinoteca:
-    # Atributos de clase
-    archivoDeDatos = "vinoteca.json"
-    bodega = []
-    cepa = []
-    vino = []
+class ConsultasVinoteca:
+    """
+    Clase que centraliza las consultas realizadas a la vinoteca.
+    """
 
-    @classmethod
-    def inicializar(cls):
+    @staticmethod
+    def obtener_vinos_por_anio(anio, orden=None, reverso=False):
         """
-        Inicializa las colecciones de bodegas, cepas y vinos
-        cargando la información desde el archivo JSON.
+        Obtiene la lista de vinos filtrada por año, ordenada si corresponde.
         """
-        datos = cls.__parsearArchivoDeDatos()
-        cls.__convertirJSONaListas(datos)
+        return Vinoteca.obtenerVinos(anio=anio, orden=orden, reverso=reverso)
 
-    #Retorna la lista de cepas y bodegas, ordenada según los parámetros proporcionados.
+    @staticmethod
+    def buscar_bodega_por_id(id):
+        """
+        Busca una bodega por su ID.
+        """
+        return Vinoteca.buscarBodega(id)
 
-    @classmethod
-    def obtenerBodegas(cls, orden=None, reverso=False):
-        if orden:
-            return sorted(cls.bodega, key=lambda b: b[orden], reverse=reverso)
-        return cls.bodega
+    @staticmethod
+    def obtener_bodegas(orden=None, reverso=False):
+        """
+        Obtiene la lista de bodegas ordenada si se especifica.
+        """
+        return Vinoteca.obtenerBodegas(orden=orden, reverso=reverso)
 
-    @classmethod
-    def obtenerCepas(cls, orden=None, reverso=False):
-        if orden:
-            return sorted(cls.cepa, key=lambda c: c[orden], reverse=reverso)
-        return cls.cepa
+    @staticmethod
+    def obtener_cepas(orden=None, reverso=False):
+        """
+        Obtiene la lista de cepas ordenada si se especifica.
+        """
+        return Vinoteca.obtenerCepas(orden=orden, reverso=reverso)
 
-    #Retorna la lista de vinos, filtrada por año si se proporciona, y ordenada si corresponde.
+    @staticmethod
+    def buscar_cepa_por_id(id):
+        """
+        Busca una cepa por su ID.
+        """
+        return Vinoteca.buscarCepa(id)
 
-    @classmethod
-    def obtenerVinos(cls, anio=None, orden=None, reverso=False):
-        vinos_filtrados = cls.vino
-        if anio:
-            vinos_filtrados = [vino for vino in cls.vino if anio in vino.get("partidas", [])]
-        if orden:
-            return sorted(vinos_filtrados, key=lambda v: v[orden], reverse=reverso)
-        return vinos_filtrados
-    
-    #Busca y retorna un vino por su ID. Retorna None si no se encuentra.
-
-    @classmethod
-    def buscarBodega(cls, id):
-        return next((bodega for bodega in cls.bodega if bodega["id"] == id), None)
-
-    @classmethod
-    def buscarCepa(cls, id):
-        return next((cepa for cepa in cls.cepa if cepa["id"] == id), None)
-
-    @classmethod
-    def buscarVino(cls, id):
-        return next((vino for vino in cls.vino if vino["id"] == id), None)
-
-    #Abre el archivo JSON, carga la información y la devuelve como un diccionario.
-
-    @classmethod
-    def __parsearArchivoDeDatos(cls):
-        with open(cls.archivoDeDatos, "r", encoding="utf-8") as archivo:
-            return json.load(archivo)
-    
-    #Convierte los datos JSON en listas para las colecciones de bodegas, cepas y vinos.
-
-    @classmethod
-    def __convertirJSONaListas(cls, listas):
-        cls.bodega = listas.get("bodega", [])
-        cls.cepa = listas.get("cepa", [])
-        cls.vino = listas.get("vino", [])
-    
+    @staticmethod
+    def buscar_vino_por_id(id):
+        """
+        Busca un vino por su ID.
+        """
+        return Vinoteca.buscarVino(id)
