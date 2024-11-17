@@ -6,17 +6,16 @@ from consultas import ConsultasVinoteca
 # Inicializar la Vinoteca
 Vinoteca.inicializar()
 
-# Colores personalizados
+# Colores personalizados para la interfaz
 FONDO_VENTANA = "#000000"
 FONDO_RESULTADO = "#252928"
 TEXTO = "#ffffff"
+TEXTO_INACTIVO = "#575959"
 BOTON = "#019181"
 BOTON_HOVER = "#fc8674"
 
+#Lista todas las bodegas en la pestaña correspondiente.
 def listar_bodegas():
-    """
-    Lista todas las bodegas en la pestaña correspondiente.
-    """
     lista_bodegas.delete(0, tk.END)
     bodegas = ConsultasVinoteca.obtener_bodegas()
     if not bodegas:
@@ -25,10 +24,9 @@ def listar_bodegas():
         for bodega in bodegas:
             lista_bodegas.insert(tk.END, bodega.obtenerNombre())
 
+#Busca un vino por ID y muestra su información en la pestaña de Vinos.
 def buscar_vino():
-    """
-    Busca un vino por ID y muestra su información en la pestaña de Vinos.
-    """
+    
     id_vino = entrada_id_vino.get()
     if not id_vino:
         messagebox.showerror("Error", "Debes ingresar un ID de vino.")
@@ -50,10 +48,8 @@ def limpiar():
     lista_vinos.delete(0, tk.END)
     lista_cepas.delete(0, tk.END)
 
+#Lista todas las cepas en la pestaña correspondiente.
 def listar_cepas():
-    """
-    Lista todas las cepas en la pestaña correspondiente.
-    """
     lista_cepas.delete(0, tk.END)
     cepas = ConsultasVinoteca.obtener_cepas()
     if not cepas:
@@ -68,14 +64,17 @@ ventana.title("Vinoteca UNER")
 ventana.geometry("500x400")
 ventana.configure(bg=FONDO_VENTANA)
 
-# Crear estilos personalizados
+#estilos personalizados
 style = ttk.Style()
 style.theme_use('default')
 
+#Configura el aspecto del control de pestañas.
 style.configure('TNotebook', background=FONDO_VENTANA, foreground=TEXTO)
-style.configure('TNotebook.Tab', background=FONDO_VENTANA, foreground=TEXTO)
+#Configura el aspecto de las pestañas individuales.
+style.configure('TNotebook.Tab', background=FONDO_VENTANA, foreground=TEXTO_INACTIVO)
 style.map('TNotebook.Tab', background=[('selected', FONDO_RESULTADO)], foreground=[('selected', TEXTO)])
 
+#ConfiguraR el aspecto de los frames,
 style.configure('TFrame', background=FONDO_VENTANA)
 style.configure('TLabel', background=FONDO_VENTANA, foreground=TEXTO)
 style.configure('TButton', background=BOTON, foreground=TEXTO)

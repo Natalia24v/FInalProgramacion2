@@ -1,4 +1,4 @@
-# Flask
+# Importaciones
 from flask import Flask
 from flask_restful import Api
 
@@ -11,10 +11,9 @@ from recursos import *
 app = Flask(__name__)
 api = Api(app)
 
+# Inicializar la vinoteca
 if __name__ == "__main__":
     vinoteca.Vinoteca.inicializar()
-
-    app = Flask(__name__)
 
     api = Api(app)
     api.add_resource(RecursoBodega, '/api/bodegas/<id>')
